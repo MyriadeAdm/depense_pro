@@ -1,3 +1,3 @@
-# depense_pro
+# FInance Pro
 
 A new Flutter project.
