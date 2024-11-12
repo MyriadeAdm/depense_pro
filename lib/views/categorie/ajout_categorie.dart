@@ -44,6 +44,9 @@ class _AjoutCategorieState extends State<AjoutCategorie> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
               child: TextFormField(
                 decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12.3)),
+                      borderSide: BorderSide(color: Colors.black)),
                   labelText: 'Nom de la catégorie',
                 ),
                 validator: (value) {
@@ -64,6 +67,9 @@ class _AjoutCategorieState extends State<AjoutCategorie> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
               child: TextFormField(
                 decoration: const InputDecoration(
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(12.3)),
+                      borderSide: BorderSide(color: Colors.black)),
                   labelText: 'Icône de la catégorie',
                   hintText: 'Entrez un emoji',
                 ),

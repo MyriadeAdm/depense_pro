@@ -76,6 +76,8 @@ class _ListCategoriesState extends State<ListCategories> {
                                     child: const Text('Supprimer'),
                                     onPressed: () {
                                       categorieDB.suppressionCategorie(item.id);
+                                      // TODO Afficher le message lui indiquant que toutes les depenses ratachés à la categorie partiront
+                                      //supprimer tout es qui est en rapport avec la categorie
                                       Navigator.of(context).pop();
                                     },
                                   ),

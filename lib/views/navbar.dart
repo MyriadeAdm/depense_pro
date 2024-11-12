@@ -1,4 +1,4 @@
-import 'package:depense_pro/views/dashborad.dart';
+import 'package:depense_pro/views/dashboard.dart';
 import 'package:flutter/material.dart';
 
 import 'depense/ajout_depense.dart';

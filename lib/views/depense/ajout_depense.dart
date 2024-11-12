@@ -2,6 +2,7 @@ import 'package:depense_pro/models/categorie.dart';
 import 'package:depense_pro/services/database_service.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/depense.dart';
@@ -60,6 +61,7 @@ class _AjoutDepenseState extends State<AjoutDepense> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text("Ajout d'une dépense"),
       ),
@@ -81,9 +83,15 @@ class _AjoutDepenseState extends State<AjoutDepense> {
               return Form(
                 key: _formKey,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     TextFormField(
-                      decoration: const InputDecoration(labelText: 'Titre'),
+                      decoration: const InputDecoration(
+                          labelText: 'Titre',
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12.3)),
+                              borderSide: BorderSide(color: Colors.black))),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Entrer un titre';
@@ -94,8 +102,14 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                         _titre = value!;
                       },
                     ),
+                    const SizedBox(height: 15),
                     TextFormField(
-                      decoration: const InputDecoration(labelText: 'Montant'),
+                      decoration: const InputDecoration(
+                          labelText: 'Montant',
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12.3)),
+                              borderSide: BorderSide(color: Colors.black))),
                       keyboardType: TextInputType.number,
                       validator: (value) {
                         if (value == null ||
@@ -130,9 +144,14 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                       locale: "fr",
                     ),
 
-                    const SizedBox(height: 16.0),
+                    const SizedBox(height: 30.0),
                     DropdownButtonFormField<String>(
-                      decoration: const InputDecoration(labelText: 'Catégorie'),
+                      decoration: const InputDecoration(
+                          labelText: 'Catégorie',
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12.3)),
+                              borderSide: BorderSide(color: Colors.black))),
                       items: categories.map((category) {
                         return DropdownMenuItem<String>(
                           value: category.id.toString(),
@@ -151,8 +170,14 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                     ),
                     const SizedBox(height: 16.0),
                     TextFormField(
-                      decoration:
-                          const InputDecoration(labelText: 'Description'),
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                      decoration: const InputDecoration(
+                          labelText: 'Description',
+                          border: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(12.3)),
+                              borderSide: BorderSide(color: Colors.black))),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Entrer une description';
@@ -163,27 +188,73 @@ class _AjoutDepenseState extends State<AjoutDepense> {
                         _description = value!;
                       },
                     ),
-                    const SizedBox(height: 16.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            _submitForm();
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Enregistré'),
-                                duration: Duration(milliseconds: 500),
+                    const SizedBox(height: 32.0),
+
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Expanded(
+                            child: FilledButton(
+                              style: ButtonStyle(
+                                  backgroundColor:
+                                      WidgetStateProperty.all(Colors.black),
+                                  shape: WidgetStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12.5),
+                                  ))),
+                              onPressed: () {
+                                if (_dateSelectionne.compareTo(DateTime.now()) >
+                                    0) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              "La date séléctionné est superieur à la date du jour")));
+                                  // print("DT1 is after DT2");
+                                } else {
+                                  _submitForm();
+                                }
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Enregistré'),
+                                    duration: Duration(milliseconds: 500),
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                'Ajouter',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                ),
                               ),
-                            );
-                          },
-                          child: const Text('Ajouter'),
-                        ),
-                        ElevatedButton(
-                          onPressed: () => Navigator.pop(context),
-                          child: const Text('Annuler'),
-                        ),
-                      ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 40,
+                          ),
+                          Expanded(
+                            child: OutlinedButton(
+                              style: ButtonStyle(
+                                  shape: WidgetStateProperty.all<
+                                          RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12.5),
+                              ))),
+                              onPressed: () => Navigator.pop(context),
+                              child: const Text(
+                                'Annuler',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 18,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
