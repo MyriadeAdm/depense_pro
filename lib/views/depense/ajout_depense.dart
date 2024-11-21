@@ -62,7 +62,7 @@ class _AjoutDepenseState extends State<AjoutDepense> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: const Text("Ajout d'une dépense"),
       ),
@@ -81,183 +81,186 @@ class _AjoutDepenseState extends State<AjoutDepense> {
             } else {
               List<Categorie> categories = snapshot.data!;
 
-              return Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          labelText: 'Titre',
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12.3)),
-                              borderSide: BorderSide(color: Colors.black))),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Entrer un titre';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _titre = value!;
-                      },
-                    ),
-                    const SizedBox(height: 15),
-                    TextFormField(
-                      decoration: const InputDecoration(
-                          labelText: 'Montant',
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12.3)),
-                              borderSide: BorderSide(color: Colors.black))),
-                      keyboardType: TextInputType.number,
-                      validator: (value) {
-                        if (value == null ||
-                            int.tryParse(value) == null ||
-                            int.parse(value) <= 0) {
-                          return 'Entrer un montant valide';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _montant = int.parse(value!);
-                      },
-                    ),
-                    const SizedBox(height: 16.0),
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //         'Date: ${_dateSelectionne.toLocal().toString().split(' ')[0]}'),
-                    //     TextButton(
-                    //       onPressed: _pickDate,
-                    //       child: const Text('Sélectionner une date'),
-                    //     ),
-                    //   ],
-                    // ),
-
-                    EasyDateTimeLine(
-                      initialDate: DateTime.now(),
-                      onDateChange: (selectedDate) {
-                        _dateSelectionne = selectedDate;
-                      },
-                      // activeColor: const Color(0xffB04759),
-                      locale: "fr",
-                    ),
-
-                    const SizedBox(height: 30.0),
-                    DropdownButtonFormField<String>(
-                      decoration: const InputDecoration(
-                          labelText: 'Catégorie',
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12.3)),
-                              borderSide: BorderSide(color: Colors.black))),
-                      items: categories.map((category) {
-                        return DropdownMenuItem<String>(
-                          value: category.id.toString(),
-                          child: Text('${category.icon} ${category.nom}'),
-                        );
-                      }).toList(),
-                      onChanged: (value) {
-                        _categorieSelectionne = int.parse(value!);
-                      },
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Sélectionner une catégorie';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 16.0),
-                    TextFormField(
-                      keyboardType: TextInputType.multiline,
-                      maxLines: 5,
-                      decoration: const InputDecoration(
-                          labelText: 'Description',
-                          border: OutlineInputBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(12.3)),
-                              borderSide: BorderSide(color: Colors.black))),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Entrer une description';
-                        }
-                        return null;
-                      },
-                      onSaved: (value) {
-                        _description = value!;
-                      },
-                    ),
-                    const SizedBox(height: 32.0),
-
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Expanded(
-                            child: FilledButton(
-                              style: ButtonStyle(
-                                  backgroundColor:
-                                      WidgetStateProperty.all(Colors.black),
-                                  shape: WidgetStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.5),
-                                  ))),
-                              onPressed: () {
-                                if (_dateSelectionne.compareTo(DateTime.now()) >
-                                    0) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                          content: Text(
-                                              "La date séléctionné est superieur à la date du jour")));
-                                  // print("DT1 is after DT2");
-                                } else {
-                                  _submitForm();
-                                }
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Enregistré'),
-                                    duration: Duration(milliseconds: 500),
-                                  ),
-                                );
-                              },
-                              child: const Text(
-                                'Ajouter',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 40,
-                          ),
-                          Expanded(
-                            child: OutlinedButton(
-                              style: ButtonStyle(
-                                  shape: WidgetStateProperty.all<
-                                          RoundedRectangleBorder>(
-                                      RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.5),
-                              ))),
-                              onPressed: () => Navigator.pop(context),
-                              child: const Text(
-                                'Annuler',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 18,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+              return SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            labelText: 'Titre',
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12.3)),
+                                borderSide: BorderSide(color: Colors.black))),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Entrer un titre';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _titre = value!;
+                        },
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 15),
+                      TextFormField(
+                        decoration: const InputDecoration(
+                            labelText: 'Montant',
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12.3)),
+                                borderSide: BorderSide(color: Colors.black))),
+                        keyboardType: TextInputType.number,
+                        validator: (value) {
+                          if (value == null ||
+                              int.tryParse(value) == null ||
+                              int.parse(value) <= 0) {
+                            return 'Entrer un montant valide';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _montant = int.parse(value!);
+                        },
+                      ),
+                      const SizedBox(height: 16.0),
+                      // Row(
+                      //   children: [
+                      //     Text(
+                      //         'Date: ${_dateSelectionne.toLocal().toString().split(' ')[0]}'),
+                      //     TextButton(
+                      //       onPressed: _pickDate,
+                      //       child: const Text('Sélectionner une date'),
+                      //     ),
+                      //   ],
+                      // ),
+
+                      EasyDateTimeLine(
+                        initialDate: DateTime.now(),
+                        onDateChange: (selectedDate) {
+                          _dateSelectionne = selectedDate;
+                        },
+                        // activeColor: const Color(0xffB04759),
+                        locale: "fr",
+                      ),
+
+                      const SizedBox(height: 30.0),
+                      DropdownButtonFormField<String>(
+                        decoration: const InputDecoration(
+                            labelText: 'Catégorie',
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12.3)),
+                                borderSide: BorderSide(color: Colors.black))),
+                        items: categories.map((category) {
+                          return DropdownMenuItem<String>(
+                            value: category.id.toString(),
+                            child: Text('${category.icon} ${category.nom}'),
+                          );
+                        }).toList(),
+                        onChanged: (value) {
+                          _categorieSelectionne = int.parse(value!);
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Sélectionner une catégorie';
+                          }
+                          return null;
+                        },
+                      ),
+                      const SizedBox(height: 16.0),
+                      TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: 5,
+                        decoration: const InputDecoration(
+                            labelText: 'Description',
+                            border: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(12.3)),
+                                borderSide: BorderSide(color: Colors.black))),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Entrer une description';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          _description = value!;
+                        },
+                      ),
+                      const SizedBox(height: 32.0),
+
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Expanded(
+                              child: FilledButton(
+                                style: ButtonStyle(
+                                    backgroundColor:
+                                        WidgetStateProperty.all(Colors.black),
+                                    shape: WidgetStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12.5),
+                                    ))),
+                                onPressed: () {
+                                  if (_dateSelectionne
+                                          .compareTo(DateTime.now()) >
+                                      0) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                            content: Text(
+                                                "La date séléctionné est superieur à la date du jour")));
+                                    // print("DT1 is after DT2");
+                                  } else {
+                                    _submitForm();
+                                  }
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Enregistré'),
+                                      duration: Duration(milliseconds: 500),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  'Ajouter',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 40,
+                            ),
+                            Expanded(
+                              child: OutlinedButton(
+                                style: ButtonStyle(
+                                    shape: WidgetStateProperty.all<
+                                            RoundedRectangleBorder>(
+                                        RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12.5),
+                                ))),
+                                onPressed: () => Navigator.pop(context),
+                                child: const Text(
+                                  'Annuler',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               );
             }
