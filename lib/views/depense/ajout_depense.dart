@@ -22,21 +22,6 @@ class _AjoutDepenseState extends State<AjoutDepense> {
   DateTime _dateSelectionne = DateTime.now();
   int? _categorieSelectionne;
 
-  // void _pickDate() async {
-  //   final pickedDate = await showDatePicker(
-  //     context: context,
-  //     initialDate: DateTime.now(),
-  //     firstDate: DateTime(2000),
-  //     lastDate: DateTime(2100),
-  //   );
-  //   if (pickedDate != null && pickedDate != _dateSelectionne) {
-  //     setState(() {
-  //       _dateSelectionne = pickedDate;
-  //     });
-  //   }
-  // }
-  // correction
-
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
