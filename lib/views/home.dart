@@ -34,7 +34,7 @@ class _HomeState extends State<Home> {
     final depenseDB = context.watch<DatabaseService>();
     List<Depense> depenseActuelles = depenseDB.depensesActuelles;
 
-    SliverWoltModalSheetPage page1(
+    SliverWoltModalSheetPage page(
         BuildContext modalSheetContext, Depense depense) {
       return WoltModalSheetPage(
         hasSabGradient: false,
@@ -50,15 +50,6 @@ class _HomeState extends State<Home> {
                   child: Center(child: Text('Cancel')),
                 ),
               ),
-              // const SizedBox(height: 8),
-              // ElevatedButton(
-              //   onPressed: WoltModalSheet.of(modalSheetContext).showNext,
-              //   child: const SizedBox(
-              //     height: _buttonHeight,
-              //     width: double.infinity,
-              //     child: Center(child: Text('Next page')),
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -79,26 +70,7 @@ class _HomeState extends State<Home> {
               _pagePadding,
               _bottomPaddingForButton,
             ),
-            child: Column(
-              children: [
-                MyDetailsRow(
-                  title: "Titre",
-                  value: depense.titre!,
-                ),
-                MyDetailsRow(
-                  title: "Montant",
-                  value: depense.montant.toString(),
-                ),
-                MyDetailsRow(
-                  title: "Date de Création",
-                  value: depense.date!.toLocal().toString().split(' ')[0],
-                ),
-                MyDetailsRow(
-                  title: "Description",
-                  value: depense.description.toString(),
-                ),
-              ],
-            )),
+            child: detailsList(depense)),
       );
     }
 
@@ -129,7 +101,7 @@ class _HomeState extends State<Home> {
                         context: context,
                         pageListBuilder: (modalSheetContext) {
                           return [
-                            page1(modalSheetContext, depense),
+                            page(modalSheetContext, depense),
                           ];
                         },
                         modalTypeBuilder: (context) =>
@@ -148,5 +120,28 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  Column detailsList(Depense depense) {
+    return Column(
+            children: [
+              MyDetailsRow(
+                title: "Titre",
+                value: depense.titre!,
+              ),
+              MyDetailsRow(
+                title: "Montant",
+                value: depense.montant.toString(),
+              ),
+              MyDetailsRow(
+                title: "Date de Création",
+                value: depense.date!.toLocal().toString().split(' ')[0],
+              ),
+              MyDetailsRow(
+                title: "Description",
+                value: depense.description.toString(),
+              ),
+            ],
+          );
   }
 }
