@@ -33,7 +33,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       drawer: Navbar(),
       appBar: AppBar(
-        title: Text("Expense Pro"),
+        title: Text("Finance Pro"),
       ),
       body: Center(
         child: Column(
@@ -49,24 +49,24 @@ class _HomeState extends State<Home> {
                   return ListTile(
                     title: Text(depense.titre!),
                     subtitle: Text("${depense.montant} F CFA"),
-                    trailing:
-                        Text(depense.date!.toLocal().toString().split(' ')[0]),
+                    trailing: Text(
+                      depense.date!.toLocal().toString().split(' ')[0],
+                    ),
+                    onLongPress: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return Placeholder();
+                            },
+                          ));
+                    },
                   );
                 },
               ),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => AjoutDepense(),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
       ),
     );
   }

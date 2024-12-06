@@ -1,3 +1,4 @@
+import 'package:depense_pro/components/my_drawer_list_tile.dart';
 import 'package:depense_pro/views/dashboard.dart';
 import 'package:flutter/material.dart';
 
@@ -7,65 +8,49 @@ import 'categorie/list_categories.dart';
 class Navbar extends StatelessWidget {
   const Navbar({super.key});
 
+  void pushPage(BuildContext ctx, Widget page) async {
+    await Navigator.of(ctx).push(
+      MaterialPageRoute(
+        builder: (context) => page,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
         children: [
-          UserAccountsDrawerHeader(
-            accountName: const Text("Avatar"),
-            accountEmail: const Text("Testmail@testmail.test"),
-            currentAccountPicture: CircleAvatar(
-              child: ClipOval(
-                child: Image.asset("assets/images/avatar.jpg"),
-              ),
-            ),
-            decoration: BoxDecoration(
-              color: Colors.pink.shade900,
-            ),
+          Padding(padding: EdgeInsets.only(top: 100)),
+          MyDrawerListTile(
+            title: "Accueil",
+            onTap: () => Navigator.pop(context),
+            icon: Icons.home,
           ),
-          ListTile(
-            leading: Icon(Icons.category_outlined),
-            title: Text("Categories"),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => ListCategories(),
-                ),
-              );
-            },
+          MyDrawerListTile(
+            title: "Catégories",
+            onTap: () => pushPage(context, ListCategories()),
+            icon: Icons.carpenter_outlined,
           ),
-          ListTile(
-            leading: Icon(Icons.account_balance_wallet_outlined),
-            title: Text("Ajouter une dépense"),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => AjoutDepense(),
-                ),
-              );
-            },
+          MyDrawerListTile(
+            title: "Ajouter une dépense",
+            onTap: () => pushPage(context, AjoutDepense()),
+            icon: Icons.account_balance_outlined,
           ),
-          ListTile(
-            leading: Icon(Icons.monetization_on),
-            title: Text("Budgetisation"),
-            onTap: () {},
+          MyDrawerListTile(
+            title: "Budgetisation",
+            onTap: () => pushPage(context, Placeholder()),
+            icon: Icons.monetization_on,
           ),
-          ListTile(
-            leading: Icon(Icons.analytics_outlined),
-            title: Text("Statistiques"),
-            onTap: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => Dashborad(),
-                ),
-              );
-            },
+          MyDrawerListTile(
+            title: "Statistiques",
+            onTap: () => pushPage(context, Dashboard()),
+            icon: Icons.analytics_outlined,
           ),
-          ListTile(
-            leading: Icon(Icons.add_card_outlined),
-            title: Text("Gestion de dettes"),
-            onTap: () {},
+          MyDrawerListTile(
+            title: "Gestion de dettes",
+            onTap: () => pushPage(context, Placeholder()),
+            icon: Icons.add_card_rounded,
           ),
         ],
       ),

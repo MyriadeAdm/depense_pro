@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../services/database_service.dart';
 
-class Dashborad extends StatelessWidget {
-  const Dashborad({super.key});
+class Dashboard extends StatelessWidget {
+  const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -95,9 +95,9 @@ class Dashborad extends StatelessWidget {
                                   sections: snapshot.data,
                                   centerSpaceRadius: 50,
                                 ),
-                                swapAnimationDuration:
+                                duration:
                                     Duration(milliseconds: 150), // Optional
-                                swapAnimationCurve: Curves.linear,
+                                curve: Curves.linear,
                               ),
                             );
                           }
