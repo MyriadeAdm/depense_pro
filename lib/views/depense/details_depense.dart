@@ -10,7 +10,11 @@ class DetailsDepense extends StatelessWidget {
         title: Text("Details Dépenses"),
       ),
       body: Center(
-        child: Column(),
+        child: Column(
+          children: [
+            
+          ],
+        ),
       ),
     );
   }
