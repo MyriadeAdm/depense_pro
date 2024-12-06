@@ -1,5 +1,4 @@
 import 'package:depense_pro/services/database_service.dart';
-import 'package:depense_pro/views/depense/ajout_depense.dart';
 import 'package:depense_pro/views/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -53,13 +52,11 @@ class _HomeState extends State<Home> {
                       depense.date!.toLocal().toString().split(' ')[0],
                     ),
                     onLongPress: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) {
-                              return Placeholder();
-                            },
-                          ));
+                      Navigator.push(context, MaterialPageRoute(
+                        builder: (context) {
+                          return Placeholder();
+                        },
+                      ));
                     },
                   );
                 },
